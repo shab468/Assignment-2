@@ -5,22 +5,60 @@ let colorSelected;
 
 // Add a row
 function addR() {
-    alert("Clicked Add Row"); // Replace this line with your code.
+    let grid = document.querySelector("table"); // Retrieve grid dynamically
+    let row = document.createElement("tr"); 
+    
+    for (let i = 0; i < numCols; i++) { 
+        let cell = document.createElement("td");
+        cell.onclick = function() { setColor(cell); };
+        row.appendChild(cell);
+    }
+    
+    grid.appendChild(row);
+    numRows++;
+    
+    if (numCols === 0) {
+        numCols = 1; // Ensure at least one column exists
+        let firstCell = document.createElement("td");
+        firstCell.onclick = function() { setColor(firstCell); };
+        row.appendChild(firstCell);
+    }
 }
 
 // Add a column
 function addC() {
-    alert("Clicked Add Col"); // Replace this line with your code.
+    let grid = document.querySelector("table"); // Retrieve grid dynamically
+    if (numRows === 0) {
+        addR(); // If no rows exist, add a row first
+    } else {
+        for (let row of grid.children) {
+            let cell = document.createElement("td");
+            cell.onclick = function() { setColor(cell); };
+            row.appendChild(cell);
+        }
+    }
+    numCols++;
 }
 
 // Remove a row
 function removeR() {
-    alert("Clicked Remove Row"); // Replace this line with your code.
+    let grid = document.querySelector("table"); // Retrieve grid dynamically
+    if (numRows > 0) {
+        grid.removeChild(grid.lastElementChild);
+        numRows--;
+        if (numRows === 0) numCols = 0; // Reset columns if no rows left
+    }
 }
 
 // Remove a column
 function removeC() {
-    alert("Clicked Remove Col"); // Replace this line with your code.
+    let grid = document.querySelector("table"); // Retrieve grid dynamically
+    if (numCols > 0) {
+        for (let row of grid.children) {
+            row.removeChild(row.lastElementChild);
+        }
+        numCols--;
+    }
 }
 
 // Set global variable for selected color
@@ -29,17 +67,38 @@ function selectColor(){
     console.log(colorSelected);
 }
 
+// Set color of clicked cell
+function setColor(cell) {
+    if (colorSelected !== "SELECT") {
+        cell.style.backgroundColor = colorSelected;
+    }
+}
+
 // Fill all uncolored cells
 function fillU(){
-    alert("Clicked Fill All Uncolored"); // Replace this line with your code.
+    let grid = document.querySelector("table"); // Retrieve grid dynamically
+    let cells = grid.getElementsByTagName("td");
+    for (let cell of cells) {
+        if (!cell.style.backgroundColor || cell.style.backgroundColor === "white") {
+            cell.style.backgroundColor = colorSelected;
+        }
+    }
 }
 
 // Fill all cells
 function fillAll(){
-    alert("Clicked Fill All"); // Replace this line with your code.
+    let grid = document.querySelector("table"); // Retrieve grid dynamically
+    let cells = grid.getElementsByTagName("td");
+    for (let cell of cells) {
+        cell.style.backgroundColor = colorSelected;
+    }
 }
 
 // Clear all cells
 function clearAll(){
-    alert("Clicked Clear All"); // Replace this line with your code.
+    let grid = document.querySelector("table"); // Retrieve grid dynamically
+    let cells = grid.getElementsByTagName("td");
+    for (let cell of cells) {
+        cell.style.backgroundColor = "white";
+    }
 }
