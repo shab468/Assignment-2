@@ -7,3 +7,14 @@ td{
     width: 50px;
     background-color: white;
 }
+
+h1 {
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adds spacing between buttons */
+    margin-bottom: 10px;
+}
